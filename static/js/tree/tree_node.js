@@ -6,11 +6,15 @@
 export class TreeNode {
     /**
      * @param {any} value - The value of the node.
+     * @param {int} x - The x coordinate of the tree node
+     * @param {int} y - The y coordinate of the tree node
      * @param {TreeNode} left - [Optional] Left child node.
      * @param {TreeNode} right - [Optional] Right child node.
      */
-    constructor(value, left=null, right=null) {
+    constructor(value, x, y, left=null, right=null) {
         this.value = value;
+        this.x = x;
+        this.y = y;
         this.left = left;
         this.right = right;
     };
@@ -20,6 +24,13 @@ export class TreeNode {
      */
     get isLeafNode() {
         return !this.left && !this.right;
+    };
+    /**
+     * The position of the tree node on a canvas
+     * @return {Map} The x and y position of the node
+     */
+    get position() {
+        return {x: this.x, y: this.y};
     };
 
 };
