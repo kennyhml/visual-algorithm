@@ -32,6 +32,11 @@ export class TreeNode {
     get position() {
         return {x: this.x, y: this.y};
     };
+    
+    setPos(x, y) {
+        this.x = x;
+        this.y = y;
+    }
 
 };
 

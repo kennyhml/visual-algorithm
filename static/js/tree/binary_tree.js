@@ -3,6 +3,8 @@ import { TreeNode } from "./tree_node.js";
 export { BinaryTree }
 
 
+const scaleFactor = 0.075;
+
 /**
  * Represents a binary tree on the canvas.
  * 
@@ -27,6 +29,7 @@ class BinaryTree {
     constructor(root = null) {
         this.root = root;
         this.selectedNode = root;
+        this.radius = 0;
     };
     /**
      * Inserts a new node into the binary tree at the selected node,
@@ -48,11 +51,16 @@ class BinaryTree {
         };
         this.selectedNode = newNode;
     };
+
+    calculateRadius(canvas) {
+        var factorWidth = (canvas.width - canvas.offsetLeft) / this.width;
+        var factorHeight = canvas.height / this.height;
+        this.radius = Math.min(factorWidth, factorHeight) * scaleFactor;
+    };
     /**
      * @return {number} The maximum width of the binary tree at any level.
      */
     get width() {
-
         var level = [this.root];
         var maxWidth = 0
 
@@ -90,4 +98,45 @@ class BinaryTree {
         dfs(this.root, maxHeight);
         return maxHeight;
     };
+
+    draw(canvas, context) {
+        if (!this.root) { return; };
+        this.calculateRadius(canvas);
+        this.drawNode(this.root, context)
+        this.drawChildren(this.root, context);
+    }
+
+    calculateChildPosition(node, side) {
+        
+        if (!["left", "right"].includes(side)) {
+            throw TypeError(`Unknown child '${side}'.`)
+        }
+
+        var x = node.x + (side == 'right' ? 50 : -50)
+        var y = node.y + 50
+
+        return [x, y];
+    };
+
+    drawNode(node, context) {
+        console.log(`Drawing ${node.x} ${node.y}`)
+        context.beginPath();
+        context.arc(node.x, node.y, this.radius, 0, Math.PI * 2);
+        context.stroke();
+
+    }
+    drawChildren(node, context) {
+        if (node.left) {
+            node.left.setPos(...this.calculateChildPosition(node, "left"));
+            this.drawNode(node.left, context);
+            this.drawChildren(node.left, context);
+        };
+
+        if (node.right) {
+            node.right.setPos(...this.calculateChildPosition(node, "right"));
+            this.drawNode(node.right, context);
+            this.drawChildren(node.right, context);
+        };
+
+    }
 };
