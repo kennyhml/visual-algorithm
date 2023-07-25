@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"> 
+    <title>Interactive Binary Tree</title>
+    <style>
+        canvas {
+            margin: 0px;
+            height: 100vh;
+            width: 100vw;
+        }
+        body {
+            margin: 0px;
+            display: flex;
+            height: 100%;
+            overflow: hidden;
+        }
+        #toolbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 200px;
+            height: 100%;
+            background-color: #443c3c;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="toolbar">
+        <button></button>
+        <button></button>
+      </div>
+    <canvas></canvas>
+    <script src="{% static 'js/canvas.js' %}?v=1"></script>
+
+</body>
+</html>
