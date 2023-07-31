@@ -4,7 +4,6 @@ export { BinaryTree }
 
 
 const scaleFactor = 0.075;
-const verticalSpacing = 50;
 const padding = 50;
 
 /**
@@ -147,6 +146,14 @@ class BinaryTree {
         this.context.beginPath();
         this.context.arc(node.x, node.y, this.radius, 0, Math.PI * 2);
         this.context.stroke();
+
+        var text = node.value.toString();
+        var metrics = this.context.measureText(node.value.toString());
+
+        this.context.font = '18px Arial';
+        this.context.fillStyle = 'black';
+
+        this.context.fillText(text, node.x - (metrics.width / 2), node.y + 5);
     };
     connectNode(node) {
         console.log(`Connecting node ${node.value} to it's children.`)
@@ -172,10 +179,11 @@ class BinaryTree {
         let nodes = levels[0].length;
         console.log(`Constructing lowermost level with ${nodes} nodes..`);
 
+
         // Compute the spacings and centers so we can space the nodes properly
         var center = (this.canvas.width) / 2;
         var horizontalSpacing = (this.canvas.width - padding * 2) / nodes;
-        var verticalSpacing = (this.canvas.height - padding * 2) / nodes;
+        var verticalSpacing = (this.canvas.height - padding * 2) / this.height;
 
         console.log(`Horizontal space: ${horizontalSpacing}, vertical space: ${verticalSpacing}.`);
 

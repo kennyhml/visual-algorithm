@@ -11,7 +11,7 @@ export class TreeNode {
      * @param {TreeNode} left - [Optional] Left child node.
      * @param {TreeNode} right - [Optional] Right child node.
      */
-    constructor(value, x, y, left=null, right=null) {
+    constructor(value, x=0, y=0, left=null, right=null) {
         this.value = value;
         this.x = x;
         this.y = y;
