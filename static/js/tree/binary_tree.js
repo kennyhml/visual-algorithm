@@ -15,7 +15,7 @@ const padding = 50;
  * of the nodes on the canvas such as the maximum width and height of the 
  * tree.
  * 
- * @class
+ * @class BinaryTree
  */
 export class BinaryTree {
     /**
@@ -145,12 +145,14 @@ export class BinaryTree {
 
         // TODO: Scale the size of the text with the node size
         const text = node.value.toString();
-        const metrics = this.context.measureText(node.value.toString());
-        this.context.font = '18px Arial';
-        this.context.fillStyle = 'black';
+        const fontSize = 6 * (this.radius / 10);
 
-        // To center the text value we put the center of the text at the center of the node.
-        this.context.fillText(text, node.x - (metrics.width / 2), node.y + 5);
+        this.context.font = `${fontSize}px Arial`;
+        this.context.fillStyle = 'black';
+        this.context.textAlign = 'center';
+        this.context.textBaseline = 'middle';
+
+        this.context.fillText(text, node.x, node.y);
     };
     /**
      * Draws the lines from a node to each existing child, but only for the given node.

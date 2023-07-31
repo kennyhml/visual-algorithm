@@ -25,7 +25,7 @@ function generateRandomBinaryTree(depth) {
   }
   
 // Example usage:
-const randomDepth = 4; // Specify the depth of the random tree
+const randomDepth = 3; // Specify the depth of the random tree
 var rootNode = generateRandomBinaryTree(randomDepth);
 
 
