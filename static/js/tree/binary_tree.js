@@ -1,7 +1,5 @@
 
 import { TreeNode } from "./tree_node.js";
-export { BinaryTree }
-
 
 const scaleFactor = 0.075;
 const padding = 50;
@@ -19,7 +17,7 @@ const padding = 50;
  * 
  * @class
  */
-class BinaryTree {
+export class BinaryTree {
     /**
      * Creates a binary tree from an optional root node.
      * 
@@ -43,7 +41,7 @@ class BinaryTree {
      * @param {string} side - The side to insert on, either 'left' or 'right'.
      */
     insert(value, side) {
-        newNode = new TreeNode(value);
+        const newNode = new TreeNode(value);
 
         if (!this.root) {
             this.root = newNode;
@@ -61,8 +59,8 @@ class BinaryTree {
      * and the size of the binary tree.
      */
     calculateNodeRadius() {
-        let widthFactor = this.canvas.width / this.width
-        let heightFactor = this.canvas.height / this.height
+        const widthFactor = this.canvas.width / this.width;
+        const heightFactor = this.canvas.height / this.height;
 
         this.radius = Math.min(widthFactor, heightFactor) * scaleFactor;
     };
@@ -78,7 +76,7 @@ class BinaryTree {
      * @return {number} The maximum height of the binary tree.
      */
     get height() {
-        var maxHeight = 0;
+        let maxHeight = 0;
 
         function dfs(node, currentHeight) {
             if (!node) { return; };
@@ -93,12 +91,13 @@ class BinaryTree {
         return maxHeight;
     };
     /**
-     * Returns a level order traversal of the binary tree as array.
-     * @returns {Array} - The levels of the tree where each level contains its nodes.
+     * Represents the tree as a  level order traversal where `level[i]` is the 
+     * `i`'th level from the root and `level[i][j]` the `j`'th node from the left.
+     * @returns {Array} - The level order traversal array.
      */
     toArray() {
-        var levels = [];
-        var level = [this.root];
+        const levels = [];
+        let level = [this.root];
 
         while (this.root && level.length > 0) {
             let nextLevel = [];
@@ -110,60 +109,65 @@ class BinaryTree {
                     nextLevel.push(node.right);
                 };
             })
-            levels.push(level)
+            levels.push(level);
             level = nextLevel;
 
         };
         return levels;
     };
-
+    /**
+     * Initiates a full redraw of the binary tree on the canvas.
+     */
     draw() {
         if (!this.root) {
-            console.log("Tree was not drawn as it has no nodes.")
+            console.log("Tree was not drawn as it has no nodes.");
             return;
         };
+        // We are fully redrawing the tree, not redrawing modifications
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
 
-        // Calculate the node radius based on the canvas size and the
-        // max width or height of the binary tree.
+        // Node radius is based on the canvas' size and the trees' width/height .
         this.calculateNodeRadius();
         console.log(`Calculated circle for radius: ${this.radius}`);
-
-        // Reverse the array representation of the tree to start building it
-        // bottom - up.
-        var levels = this.toArray();
-        levels.reverse()
-        console.log("Levels:", levels)
-
-        this.drawNodes(levels);
+        this.drawNodes();
     };
     /**
-     * Draws a singular node on the canvas, granted the nodes position
-     * has been set beforehand.
-     * @param {TreeNode} node - The node to draw on the canvas.
+     * Draws a node on the canvas. The nodes' position must be set beforehand.
+     * @param {TreeNode} node - The tree node to draw on the canvas.
      */
     drawNode(node) {
-        console.log(`Drawing node ${node.value} at ${node.x} ${node.y}`)
+        console.log(`Drawing node ${node.value} at ${node.x} ${node.y}`);
+
+        // Draw the circle where with our computed radious around the nodes' position
         this.context.beginPath();
         this.context.arc(node.x, node.y, this.radius, 0, Math.PI * 2);
         this.context.stroke();
 
-        var text = node.value.toString();
-        var metrics = this.context.measureText(node.value.toString());
-
+        // TODO: Scale the size of the text with the node size
+        const text = node.value.toString();
+        const metrics = this.context.measureText(node.value.toString());
         this.context.font = '18px Arial';
         this.context.fillStyle = 'black';
 
+        // To center the text value we put the center of the text at the center of the node.
         this.context.fillText(text, node.x - (metrics.width / 2), node.y + 5);
     };
+    /**
+     * Draws the lines from a node to each existing child, but only for the given node.
+     * @param {TreeNode} node - The node to connect to it's children
+     */
     connectNode(node) {
         console.log(`Connecting node ${node.value} to it's children.`)
-        for (let child of [node.left, node.right]) {
-            if (child == null) { return; }
 
+        for (let child of [node.left, node.right]) {
+            if (child == null) { return; };
+
+            // Using the angle to the child and the x/y offset we can compute
+            // where to start and stop the line such that it doesnt cross the arc.
             const angleToChild = Math.atan2(child.y - node.y, child.x - node.x);
             const xOffset = Math.cos(angleToChild) * this.radius;
             const yOffset = Math.sin(angleToChild) * this.radius;
-
+            
             this.context.beginPath();
             this.context.moveTo(node.x + xOffset, node.y + yOffset);
             this.context.lineTo(child.x - xOffset, child.y - yOffset);
@@ -171,27 +175,31 @@ class BinaryTree {
         };
     };
     /**
-     * Draws the nodes of the binary tree, starting from the bottom most level
-     * to avoid node collisions.
-     * @param {Array} levels - The levels of the binary tree in reverse
+     * Draws all nodes of the tree starting at the bottom to space the nodes
+     * correctly, then moves up to the above layers where each nodes position
+     * is the average of it's child positions.
      */
-    drawNodes(levels) {
-        let nodes = levels[0].length;
+    drawNodes() {
+        // We want to build bottom-up (reversed) to avoid node overlapping
+        const levels = this.toArray();
+        levels.reverse();
+        console.log("Levels to draw:", levels);
+
+        const nodes = levels[0].length;
         console.log(`Constructing lowermost level with ${nodes} nodes..`);
 
-
         // Compute the spacings and centers so we can space the nodes properly
-        var center = (this.canvas.width) / 2;
-        var horizontalSpacing = (this.canvas.width - padding * 2) / nodes;
-        var verticalSpacing = (this.canvas.height - padding * 2) / this.height;
+        const center = (this.canvas.width) / 2;
+        const horizontalSpacing = (this.canvas.width - padding * 2) / nodes;
+        const verticalSpacing = (this.canvas.height - padding * 2) / this.height;
 
         console.log(`Horizontal space: ${horizontalSpacing}, vertical space: ${verticalSpacing}.`);
 
         // We know how much space we need per level (verticalSpacing), and we know
         // how many levels we have, so we can calculate the y-position of the final level that way
-        var startY = (verticalSpacing * levels.length) + padding;
+        const startY = (verticalSpacing * levels.length) + padding;
         // We know that the middle node of our bottom most level must be at the center
-        var startX = center - (horizontalSpacing * (nodes / 2));
+        const startX = center - (horizontalSpacing * (nodes / 2));
 
         for (let i = 0; i < levels.length; i++) {
             let y = startY - verticalSpacing * i;
@@ -204,6 +212,7 @@ class BinaryTree {
                     this.drawNode(node);
                 } else {
                     // Compute position based on children we just placed
+                    // TODO: Handle the case where it has no children or only 1 child
                     let x = (node.left.x + node.right.x) / 2;
                     node.setPos(x, y);
                     this.drawNode(node);
