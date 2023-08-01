@@ -27,8 +27,8 @@ function generateRandomBinaryTree(depth) {
 }
 
 
-const endProbability = 0.05;
-const randomDepth = 5;
+const endProbability = 0.25;
+const randomDepth = 3;
 var rootNode = generateRandomBinaryTree(randomDepth);
 
 

@@ -141,12 +141,12 @@ export class BinaryTree {
      * @param {TreeNode} node - The tree node to draw on the canvas.
      */
     drawNode(node) {
-        // Draw the circle where with our computed radious around the nodes' position
+        // The arc forms the circle of the node at it's position
         this.context.beginPath();
         this.context.arc(node.x, node.y, this.radius, 0, Math.PI * 2);
         this.context.stroke();
 
-        // TODO: Scale the size of the text with the node size
+        // We scale the text size based on the nodes radius
         const text = node.value.toString();
         const fontSize = 9 * (this.radius / 10);
 
@@ -177,67 +177,67 @@ export class BinaryTree {
             this.context.stroke();
         };
     };
+
+    computeSpacings(levels) {
+        // Remember that in our level traversal, we include the null nodes
+        // where a node could have been, meaning our bottom most level
+        // will be have the max width of the tree already.
+        const levelWidth = levels[0].length;
+        const treeHeight = this.height;
+
+        // Spacing between nodes is based on the size of the tree
+        // and size of the canvas
+        const center = this.canvas.width / 2;
+        const horizontalSpacing = (this.canvas.width) / levelWidth;
+        const verticalSpacing = (this.canvas.height) / treeHeight;
+
+        // We must make sure that the center of the row is at the center of the canvas,
+        // taking uneven and even levels into consideration.
+        let factor = Math.floor(levelWidth / 2);
+        if (levelWidth % 2 == 0) { factor -= 0.5; 1 };
+
+        const startY = this.radius + 10 + (verticalSpacing * (treeHeight - 1));
+        const startX = center - (treeHeight > 1 ? horizontalSpacing * factor : 0);
+
+        return { startX, startY, horizontal: horizontalSpacing, vertical: verticalSpacing };
+    };
     /**
      * Draws all nodes of the tree starting at the bottom to space the nodes
      * correctly, then moves up to the above layers where each nodes position
      * is the average of it's child positions.
      */
     drawNodes() {
-        // We want to build bottom-up (reversed) to avoid node overlapping
         const levels = this.toArray();
+        // We want to build bottom-up (reversed) to avoid node overlapping
         levels.reverse();
-        console.log("Levels to draw:", levels);
+        console.log('Levels to draw:', levels);
 
-        const nodes = levels[0].length;
-
-        // Compute the spacings and centers so we can space the nodes properly
-        const center = this.canvas.width / 2;
-        const horizontalSpacing = (this.canvas.width) / nodes;
-        const verticalSpacing = (this.canvas.height) / this.height;
-
-        console.log(`Horizontal space: ${horizontalSpacing}, vertical space: ${verticalSpacing}.`);
-
-        // We know how much space we need per level (verticalSpacing), and we know
-        // how many levels we have, so we can calculate the y-position of the final level that way
-        const startY = this.radius + 10 + (verticalSpacing * (levels.length - 1));
-
-        // We must make sure that the center of the row is at the center of the canvas
-        // Taking uneven and even levels into consideration.
-        const factor = nodes % 2 == 0 ? Math.floor(nodes / 2) - 0.5 : nodes / 2;
-        const startX = center - (levels.length > 1 ? horizontalSpacing * factor : 0);
-        const positions = [];
+        const spacings = this.computeSpacings(levels);
+        const nodePositions = [];
 
         for (let i = 0; i < levels.length; i++) {
-            let y = startY - verticalSpacing * i;
-            let level = [];
+            let y = spacings.startY - (spacings.vertical * i);
+            let currentLevel = [];
 
             for (let j = 0; j < levels[i].length; j++) {
-                let node = levels[i][j];
                 let x;
-
-                if (i == 0) {
-                    x = startX + horizontalSpacing * j;
-                    if (node !== null) {
-                        node.setPos(x, y);
-                        this.drawNode(node);
-                    }
+                if (i === 0) {
+                    // Compute the position based on the spacings
+                    x = spacings.startX + (spacings.horizontal * j);
                 } else {
-                    let leftChild = positions[i - 1][j > 0 ? j * 2 : 0];
-                    let RightChild = positions[i - 1][j > 0 ? (j * 2) + 1 : 1];
-                    x = (leftChild.x + RightChild.x) / 2
-
-                    if (node !== null) {
-                        node.setPos(x, y);
-                        this.drawNode(node);
-                        this.connectNode(node);
-                    }
+                    // Compute the position based on the position of the children
+                    let prevLevel = nodePositions[i - 1]
+                    x = (prevLevel[j * 2].x + prevLevel[(j * 2) + 1].x) / 2;
                 };
-                level.push({ x: x, y: y })
-
+                let node = levels[i][j];
+                if (node !== null) {
+                    node.setPos(x, y);
+                    this.drawNode(node);
+                    this.connectNode(node);
+                };
+                currentLevel.push({ x, y })
             };
-            positions.push(level);
-            console.log("positions", positions)
-
+            nodePositions.push(currentLevel);
         };
     };
 };
