@@ -1,6 +1,6 @@
 var canvas = document.querySelector('canvas');
 
-canvas.width = window.innerWidth - 322;
+canvas.width = window.innerWidth - 320;
 canvas.height = window.innerHeight - 10;
 
 var context = canvas.getContext("2d")
@@ -25,7 +25,7 @@ function generateRandomBinaryTree(depth) {
   }
   
 // Example usage:
-const randomDepth = 3; // Specify the depth of the random tree
+const randomDepth = 5; // Specify the depth of the random tree
 var rootNode = generateRandomBinaryTree(randomDepth);
 
 

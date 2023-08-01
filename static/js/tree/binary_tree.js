@@ -2,7 +2,6 @@
 import { TreeNode } from "./tree_node.js";
 
 const scaleFactor = 0.075;
-const padding = 50;
 
 /**
  * Represents a binary tree on the canvas.
@@ -136,8 +135,6 @@ export class BinaryTree {
      * @param {TreeNode} node - The tree node to draw on the canvas.
      */
     drawNode(node) {
-        console.log(`Drawing node ${node.value} at ${node.x} ${node.y}`);
-
         // Draw the circle where with our computed radious around the nodes' position
         this.context.beginPath();
         this.context.arc(node.x, node.y, this.radius, 0, Math.PI * 2);
@@ -145,7 +142,7 @@ export class BinaryTree {
 
         // TODO: Scale the size of the text with the node size
         const text = node.value.toString();
-        const fontSize = 6 * (this.radius / 10);
+        const fontSize = 9 * (this.radius / 10);
 
         this.context.font = `${fontSize}px Arial`;
         this.context.fillStyle = 'black';
@@ -159,8 +156,6 @@ export class BinaryTree {
      * @param {TreeNode} node - The node to connect to it's children
      */
     connectNode(node) {
-        console.log(`Connecting node ${node.value} to it's children.`)
-
         for (let child of [node.left, node.right]) {
             if (child == null) { return; };
 
@@ -169,7 +164,7 @@ export class BinaryTree {
             const angleToChild = Math.atan2(child.y - node.y, child.x - node.x);
             const xOffset = Math.cos(angleToChild) * this.radius;
             const yOffset = Math.sin(angleToChild) * this.radius;
-            
+
             this.context.beginPath();
             this.context.moveTo(node.x + xOffset, node.y + yOffset);
             this.context.lineTo(child.x - xOffset, child.y - yOffset);
@@ -188,20 +183,22 @@ export class BinaryTree {
         console.log("Levels to draw:", levels);
 
         const nodes = levels[0].length;
-        console.log(`Constructing lowermost level with ${nodes} nodes..`);
 
         // Compute the spacings and centers so we can space the nodes properly
-        const center = (this.canvas.width) / 2;
-        const horizontalSpacing = (this.canvas.width - padding * 2) / nodes;
-        const verticalSpacing = (this.canvas.height - padding * 2) / this.height;
+        const center = this.canvas.width / 2;
+        const horizontalSpacing = (this.canvas.width) / nodes;
+        const verticalSpacing = (this.canvas.height) / this.height;
 
         console.log(`Horizontal space: ${horizontalSpacing}, vertical space: ${verticalSpacing}.`);
 
         // We know how much space we need per level (verticalSpacing), and we know
         // how many levels we have, so we can calculate the y-position of the final level that way
-        const startY = (verticalSpacing * levels.length) + padding;
-        // We know that the middle node of our bottom most level must be at the center
-        const startX = center - (horizontalSpacing * (nodes / 2));
+        const startY = this.radius + 10 + (verticalSpacing * (levels.length - 1));
+
+        // We must make sure that the center of the row is at the center of the canvas
+        // Taking uneven and even levels into consideration.
+        const factor = nodes % 2 == 0 ? Math.floor(nodes / 2) - 0.5 : nodes / 2;
+        const startX = center - horizontalSpacing * factor;
 
         for (let i = 0; i < levels.length; i++) {
             let y = startY - verticalSpacing * i;
