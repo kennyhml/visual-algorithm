@@ -5,27 +5,30 @@ canvas.height = window.innerHeight - 10;
 
 var context = canvas.getContext("2d")
 
-import {BinaryTree} from "./tree/binary_tree.js"
-import {TreeNode} from "./tree/tree_node.js"
+import { BinaryTree } from "./tree/binary_tree.js"
+import { TreeNode } from "./tree/tree_node.js"
 
 
-
+let count = 0;
 
 function generateRandomBinaryTree(depth) {
-    if (depth <= 0) {
-      return null;
-    }
-  
-    const node = new TreeNode(Math.floor(Math.random() * 100)); // Change the range (0-100) as needed
-  
-    node.left = generateRandomBinaryTree(depth - 1);
-    node.right = generateRandomBinaryTree(depth - 1);
-  
-    return node;
+  if (depth <= 0) {
+    return null;
   }
-  
-// Example usage:
-const randomDepth = 5; // Specify the depth of the random tree
+
+  const node = new TreeNode(count++);
+  if (Math.random() > endProbability) {
+    node.left = generateRandomBinaryTree(depth - 1);
+  }
+  if (Math.random() > endProbability) {
+    node.right = generateRandomBinaryTree(depth - 1);
+  }
+  return node;
+}
+
+
+const endProbability = 0.05;
+const randomDepth = 5;
 var rootNode = generateRandomBinaryTree(randomDepth);
 
 

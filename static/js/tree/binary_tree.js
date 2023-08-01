@@ -101,15 +101,21 @@ export class BinaryTree {
         while (this.root && level.length > 0) {
             let nextLevel = [];
             level.forEach(node => {
-                if (node.left) {
+                if (node !== null) {
                     nextLevel.push(node.left);
-                }
-                if (node.right) {
                     nextLevel.push(node.right);
+                } else {
+                    nextLevel.push(null);
+                    nextLevel.push(null);
                 };
-            })
-            levels.push(level);
-            level = nextLevel;
+            });
+
+            if (level.some(node => node !== null)) {
+                levels.push(level);
+                level = nextLevel;
+            } else {
+                level.length = 0;
+            }
 
         };
         return levels;
@@ -157,7 +163,7 @@ export class BinaryTree {
      */
     connectNode(node) {
         for (let child of [node.left, node.right]) {
-            if (child == null) { return; };
+            if (child === null) { continue; };
 
             // Using the angle to the child and the x/y offset we can compute
             // where to start and stop the line such that it doesnt cross the arc.
@@ -198,26 +204,40 @@ export class BinaryTree {
         // We must make sure that the center of the row is at the center of the canvas
         // Taking uneven and even levels into consideration.
         const factor = nodes % 2 == 0 ? Math.floor(nodes / 2) - 0.5 : nodes / 2;
-        const startX = center - horizontalSpacing * factor;
+        const startX = center - (levels.length > 1 ? horizontalSpacing * factor : 0);
+        const positions = [];
 
         for (let i = 0; i < levels.length; i++) {
             let y = startY - verticalSpacing * i;
+            let level = [];
+
             for (let j = 0; j < levels[i].length; j++) {
                 let node = levels[i][j];
-                // Drawing our initial bottom line
+                let x;
+
                 if (i == 0) {
-                    let x = startX + horizontalSpacing * j;
-                    node.setPos(x, y);
-                    this.drawNode(node);
+                    x = startX + horizontalSpacing * j;
+                    if (node !== null) {
+                        node.setPos(x, y);
+                        this.drawNode(node);
+                    }
                 } else {
-                    // Compute position based on children we just placed
-                    // TODO: Handle the case where it has no children or only 1 child
-                    let x = (node.left.x + node.right.x) / 2;
-                    node.setPos(x, y);
-                    this.drawNode(node);
-                    this.connectNode(node);
+                    let leftChild = positions[i - 1][j > 0 ? j * 2 : 0];
+                    let RightChild = positions[i - 1][j > 0 ? (j * 2) + 1 : 1];
+                    x = (leftChild.x + RightChild.x) / 2
+
+                    if (node !== null) {
+                        node.setPos(x, y);
+                        this.drawNode(node);
+                        this.connectNode(node);
+                    }
                 };
+                level.push({ x: x, y: y })
+
             };
+            positions.push(level);
+            console.log("positions", positions)
+
         };
     };
 };
