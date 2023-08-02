@@ -5,6 +5,12 @@ canvas.height = window.innerHeight - 10;
 
 var context = canvas.getContext("2d")
 
+
+var toolSection = document.getElementById("tools")
+var selectedNodeSection = document.getElementById("selected-node")
+
+
+
 import { BinaryTree } from "./tree/binary_tree.js"
 import { TreeNode } from "./tree/tree_node.js"
 

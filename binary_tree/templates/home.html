@@ -1,39 +1,114 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8"> 
+    <meta charset="UTF-8">
     <title>Interactive Binary Tree</title>
+    <link rel="stylesheet" href="{% static 'css/canvas.css' %}">
+    <link rel="stylesheet" href="{% static 'css/sidebar.css' %}">
     <style>
-        canvas {
-            position: fixed;
-            left: 320px;
-            margin: 0px;
+        #tools {
+            margin-bottom: 20px;
+            justify-content: space-evenly;
+
         }
-        body {
-            margin: 0px;
-            display: flex;
-            height: 100%;
-            overflow: hidden;
-        }
-        #toolbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 300px;
-            height: 100%;
-            background-color: #443c3c;
+
+        #selected-node-info {
+            text-align: center;
+            background-color: #2e2e2e;
             padding: 10px;
+            height: 200px;
+            top: 200px;
+            border: 1px solid black;
+            flex-direction: column;
+            justify-content: space-evenly;
         }
+
+        .node-info {
+            display: flex;
+            justify-content: space-between;
+            flex-direction: row;
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+
+        .node-field {
+            flex-basis: 33%;
+
+
+        }
+
+        .node-field label {
+            color: white;
+            margin: 0;
+            position: relative;
+            top: 15%;
+            -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+
+
+        }
+        .node-field input {
+            width: 25px;
+            padding: 5px;
+            font-size: 12px;
+            text-align: center;
+            float: right
+            
+        }
+
+
     </style>
 </head>
+
 <body>
-    <div id="toolbar">
-        <h1 style="text-align: center; margin: 0;">Binary Tree Toolbar</h1>
-        
+    <div id="sidebar">
+        <div id="tools">
+            <h1 style="text-align: center; margin: 0;">Toolbar</h1>
+            <div>
+
+            </div>
+        </div>
+
+        <div id="selected-node-info">
+            <h1 style="color: white; margin-top: 0; margin-bottom: 5px;">Selected Node</h1>
+            <div class="node-info">
+                <div class="node-field">
+                    <label>Value:</label>
+                    <input type="text" id="node-value" placeholder="999" readonly>
+                </div>
+                <div class="node-field">
+                    <label>Left:</label>
+                    <input type="text" id="node-left-child" placeholder="1" readonly>
+                </div>
+                <div class="node-field">
+                    <label>Right:</label>
+                    <input type="text" id="node-right-child" placeholder="2" readonly>
+                </div>
+            </div>
+            <div class="node-info">
+                <div class="node-field">
+                    <label>Level:</label>
+                    <input type="text" id="node-level" placeholder="1" readonly>
+                </div>
+                <div class="node-field">
+                    <label>Leaf:</label>
+                    <input type="text" id="node-leaf-node" placeholder="No" readonly>
+                </div>
+                <div class="node-field">
+                    <label>Root:</label>
+                    <input type="text" id="node-root-node" placeholder="No" readonly>
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
     <canvas></canvas>
     <script src="{% static 'js/canvas.js' %}?v=1" type="module"></script>
 
 </body>
+
 </html>
