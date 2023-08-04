@@ -9,19 +9,21 @@
     display: flex;
     flex-direction: column;
     justify-content: start;
+    transition: all 0.3s ease;
+    overflow: hidden;
 }
 
 #expand-sidebar {
     position: absolute;
     top: 50%;
-    width: 5px;
-    right: -5px; /* Adjust this value to control the distance from the right edge */
-    display: flex;
+    width: 10px;
+    left: 310px;
     align-items: center;
     transform: translateY(-50%);
 }
 
 #expand-sidebar button {
+    position: relative;
     height: 70px;
     padding: 1px;
 }

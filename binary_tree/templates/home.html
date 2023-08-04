@@ -12,17 +12,11 @@
 
 <body>
     <div id="sidebar">
-
-        <div id="expand-sidebar">
-            <button>&lt;</button>
-
-        </div>
-
         <!-- Provide tools to modify (add / delete or change a node) the tree. -->
         <div id="tools">
             <h1 style="text-align: center; margin: 0;">Toolbar</h1>
         </div>
-
+        
         <!-- Show information about the currently selected node of the tree -->
         <div id="selected-node-info">
             <h1>Selected Node</h1>
@@ -55,15 +49,18 @@
                     <label>Root:</label>
                     <input type="text" id="node-root-node" placeholder="-" readonly>
                 </div>
-
+                
             </div>
-
+            
         </div>
-
+        
+    </div>
+    <div id="expand-sidebar">
+        <button id="expand-sidebar-button">&lt;</button>
     </div>
     <canvas></canvas>
     <script src="{% static 'js/canvas.js' %}?v=1" type="module"></script>
-
+    
 </body>
 
 </html>

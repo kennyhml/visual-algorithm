@@ -43,7 +43,6 @@ const nodeIsRootField = document.getElementById("node-root-node")
 
 
 function updateSelectedNodeFields(node, root, depth) {
-    console.log(node)
     const args = {
         value: node === null ? "-" : node.value,
         left: node === null ? "-" : node.left === null ? "null" : node.left.value,
@@ -53,7 +52,6 @@ function updateSelectedNodeFields(node, root, depth) {
         root: node === null ? "-" : root
     };
 
-    console.log(args)
     nodeValueField.value = args.value;
     nodeLeftField.value = args.left;
     nodeRightField.value = args.right;
@@ -63,8 +61,28 @@ function updateSelectedNodeFields(node, root, depth) {
 
 }
 
-
-
+function collapseSidebar() {
+    const sidebar = document.getElementById("sidebar");
+    const div = document.getElementById("expand-sidebar");
+    const button = document.getElementById("expand-sidebar-button")
+    console.log(sidebar.style.display)
+    if (sidebar.style.width === "300px") {
+        // Collapse the sidebar
+        sidebar.style.width = "0";
+        sidebar.style.padding = "0";
+        button.innerHTML = ">";
+        div.style.left = "0";
+      } else {
+        // Expand the sidebar
+        sidebar.style.width = "300px";
+        sidebar.style.padding = "5px";
+        button.innerHTML = "<";
+        div.style.left = "310px";
+      }
+  }
+  
+const button = document.getElementById("expand-sidebar-button");
+button.addEventListener("click", collapseSidebar);
 
 
 const endProbability = 0.25;
