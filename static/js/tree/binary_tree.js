@@ -104,6 +104,7 @@ export class BinaryTree {
             let nextLevel = [];
             level.forEach(node => {
                 if (node !== null) {
+                    node.depth = levels.length;
                     nextLevel.push(node.left);
                     nextLevel.push(node.right);
                 } else {
@@ -153,8 +154,20 @@ export class BinaryTree {
         const node = this.selectedNode = search(this.root);
         console.log(`Selected node: ${node === null ? null : node.value}`)
 
-        if (previousNode !== this.selectedNode) this.draw();
+        if (previousNode !== this.selectedNode) {
+            this.draw();
+            this.onSelectedNodeChanged(
+                node, this.root === node ? "Yes" : "No", node === null ? "-" : node.depth
+            );
+        };
+
     };
+
+    onSelectedNodeChanged(node, root, depth) {
+        console.warn("nodeChangedCallback not defined.");
+    };
+
+
     /**
      * Initiates a full redraw of the binary tree on the canvas.
      */

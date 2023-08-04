@@ -10,3 +10,24 @@
     flex-direction: column;
     justify-content: start;
 }
+
+#expand-sidebar {
+    position: absolute;
+    top: 50%;
+    width: 5px;
+    right: -5px; /* Adjust this value to control the distance from the right edge */
+    display: flex;
+    align-items: center;
+    transform: translateY(-50%);
+}
+
+#expand-sidebar button {
+    height: 70px;
+    padding: 1px;
+}
+
+#expand-sidebar button:hover {
+    color: red;
+
+}
+

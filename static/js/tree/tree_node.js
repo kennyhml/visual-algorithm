@@ -11,12 +11,13 @@ export class TreeNode {
      * @param {TreeNode} left - [Optional] Left child node.
      * @param {TreeNode} right - [Optional] Right child node.
      */
-    constructor(value, x = 0, y = 0, left = null, right = null) {
+    constructor(value, x = 0, y = 0, left = null, right = null, depth = 0) {
         this.value = value;
         this.x = x;
         this.y = y;
         this.left = left;
         this.right = right;
+        this.depth = depth;
     };
     /**
      * A node is a leaf node if it has no left or right child.

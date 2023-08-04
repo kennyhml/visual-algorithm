@@ -7,98 +7,53 @@
     <title>Interactive Binary Tree</title>
     <link rel="stylesheet" href="{% static 'css/canvas.css' %}">
     <link rel="stylesheet" href="{% static 'css/sidebar.css' %}">
-    <style>
-        #tools {
-            margin-bottom: 20px;
-            justify-content: space-evenly;
-
-        }
-
-        #selected-node-info {
-            text-align: center;
-            background-color: #2e2e2e;
-            padding: 10px;
-            height: 200px;
-            top: 200px;
-            border: 1px solid black;
-            flex-direction: column;
-            justify-content: space-evenly;
-        }
-
-        .node-info {
-            display: flex;
-            justify-content: space-between;
-            flex-direction: row;
-            margin-bottom: 10px;
-            margin-top: 10px;
-        }
-
-        .node-field {
-            flex-basis: 33%;
-
-
-        }
-
-        .node-field label {
-            color: white;
-            margin: 0;
-            position: relative;
-            top: 15%;
-            -ms-transform: translateY(-50%);
-            transform: translateY(-50%);
-
-
-        }
-        .node-field input {
-            width: 25px;
-            padding: 5px;
-            font-size: 12px;
-            text-align: center;
-            float: right
-            
-        }
-
-
-    </style>
+    <link rel="stylesheet" href="{% static 'css/nodes.css' %}">
 </head>
 
 <body>
     <div id="sidebar">
-        <div id="tools">
-            <h1 style="text-align: center; margin: 0;">Toolbar</h1>
-            <div>
 
-            </div>
+        <div id="expand-sidebar">
+            <button>&lt;</button>
+
         </div>
 
+        <!-- Provide tools to modify (add / delete or change a node) the tree. -->
+        <div id="tools">
+            <h1 style="text-align: center; margin: 0;">Toolbar</h1>
+        </div>
+
+        <!-- Show information about the currently selected node of the tree -->
         <div id="selected-node-info">
-            <h1 style="color: white; margin-top: 0; margin-bottom: 5px;">Selected Node</h1>
+            <h1>Selected Node</h1>
+            <!-- First row of the node info displaying its value and child values. -->
             <div class="node-info">
                 <div class="node-field">
                     <label>Value:</label>
-                    <input type="text" id="node-value" placeholder="999" readonly>
+                    <input type="text" id="node-value" placeholder="-" readonly>
                 </div>
                 <div class="node-field">
                     <label>Left:</label>
-                    <input type="text" id="node-left-child" placeholder="1" readonly>
+                    <input type="text" id="node-left-child" placeholder="-" readonly>
                 </div>
                 <div class="node-field">
                     <label>Right:</label>
-                    <input type="text" id="node-right-child" placeholder="2" readonly>
+                    <input type="text" id="node-right-child" placeholder="-" readonly>
                 </div>
             </div>
+            <!-- Second row of the node info displaying it's depth and leaf / root state. -->
             <div class="node-info">
                 <div class="node-field">
-                    <label>Level:</label>
-                    <input type="text" id="node-level" placeholder="1" readonly>
+                    <label>Depth:</label>
+                    <input type="text" id="node-depth" placeholder="-" readonly>
                 </div>
                 <div class="node-field">
                     <label>Leaf:</label>
-                    <input type="text" id="node-leaf-node" placeholder="No" readonly>
+                    <input type="text" id="node-leaf-node" placeholder="-" readonly>
                 </div>
                 <div class="node-field">
                     <label>Root:</label>
-                    <input type="text" id="node-root-node" placeholder="No" readonly>
+                    <input type="text" id="node-root-node" placeholder="-" readonly>
                 </div>
 
             </div>

@@ -1,0 +1,49 @@
+#selected-node-info {
+    position: absolute;
+    bottom: 15px;
+    width: 276px;
+    text-align: center;
+    background-color: #2e2e2e;
+    padding: 10px;
+    border: 1px solid black;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+#selected-node-info h1 {
+    color: white;
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+.node-info {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    margin-bottom: 20px;
+    margin-top: 10px;
+
+}
+
+.node-field {
+    flex-basis: 33%;
+}
+
+.node-field label {
+    color: white;
+    margin: 0;
+    position: relative;
+    top: 15%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+
+
+}
+
+.node-field input {
+    width: 25px;
+    padding: 5px;
+    font-size: 12px;
+    text-align: center;
+    float: right
+}
