@@ -20,6 +20,7 @@
     left: 310px;
     align-items: center;
     transform: translateY(-50%);
+    transition: left 0.3s ease;
 }
 
 #expand-sidebar button {
