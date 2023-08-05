@@ -1,4 +1,6 @@
 canvas {
     position: fixed;
-    left: 320px;
+    left: 325px;
+    top: 0;
+    height: 100%;
 }

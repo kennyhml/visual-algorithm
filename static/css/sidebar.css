@@ -1,36 +1,33 @@
 #sidebar {
-    position: fixed;
-    top: 0;
+    position: fixed; /* Makes the sidebar stay even if the page is scrolled */
+    top: 0; /* Position it at the top left corner */
     left: 0;
     width: 300px;
     height: 100%;
     background-color: #443c3c;
     padding: 5px;
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-    transition: all 0.3s ease;
-    overflow: hidden;
+    display: flex; /* Turn it into a flexbox for easy vertical alignment */
+    flex-direction: column; /* Set flow downwards, starting at the top */
+    justify-content: start; 
+    transition: all 0.3s ease; /* Use transitions for resizes (for example collapse) */
+    overflow: hidden; /* Hide elements that left the sidebar */
 }
 
 #expand-sidebar {
-    position: absolute;
+    position: fixed; /* Ensure the element stays here */
     top: 50%;
     width: 10px;
-    left: 310px;
-    align-items: center;
-    transform: translateY(-50%);
+    left: 310px; /* Attach it to the end of the sidebar */
+    transform: translateY(-50%); /* Move element up by half its height to center it */
     transition: left 0.3s ease;
 }
 
 #expand-sidebar button {
-    position: relative;
     height: 70px;
     padding: 1px;
 }
 
 #expand-sidebar button:hover {
     color: red;
-
 }
 
