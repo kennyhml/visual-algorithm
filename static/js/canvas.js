@@ -6,31 +6,8 @@ canvas.height = window.innerHeight - 10;
 var context = canvas.getContext("2d")
 
 
-var toolSection = document.getElementById("tools")
-var selectedNodeSection = document.getElementById("selected-node")
-
-
-
 import { BinaryTree } from "./tree/binary_tree.js"
 import { TreeNode } from "./tree/tree_node.js"
-
-
-let count = 0;
-
-function generateRandomBinaryTree(depth) {
-    if (depth <= 0) {
-        return null;
-    }
-
-    const node = new TreeNode(count++);
-    if (Math.random() > endProbability) {
-        node.left = generateRandomBinaryTree(depth - 1);
-    }
-    if (Math.random() > endProbability) {
-        node.right = generateRandomBinaryTree(depth - 1);
-    }
-    return node;
-}
 
 
 const nodeValueField = document.getElementById("node-value");
@@ -58,7 +35,7 @@ function updateSelectedNodeFields(node, root, depth) {
     nodeDepthField.value = args.depth;
     nodeIsLeafField.value = args.leaf;
     nodeIsRootField.value = args.root;
-
+    checkInsertionAllowed()
 }
 
 function collapseSidebar() {
@@ -84,22 +61,44 @@ function collapseSidebar() {
 const button = document.getElementById("expand-sidebar-button");
 button.addEventListener("click", collapseSidebar);
 
-
-const endProbability = 0.25;
-const randomDepth = 3;
-var rootNode = generateRandomBinaryTree(randomDepth);
-
-
-const tree = new BinaryTree(canvas, context, rootNode);
+const tree = new BinaryTree(canvas, context, null);
 tree.onSelectedNodeChanged = updateSelectedNodeFields
 tree.draw()
 
-
 const insertButton = document.getElementById("insert-node")
+const insertDirection = document.getElementById("insert-position")
+const insertValue = document.getElementById("new-node-value")
 
 insertButton.onclick = () => {
+    const val = insertValue.value;
 
+    if (!val) {
+        window.alert("Invalid node value! Please enter a valid value.")
+    } else if (tree.selectedNode === null && tree.root !== null) {
+        window.alert("Please select the node to insert a child for.")
+    } else if (tree.selectedNode !== null && tree.selectedNode.depth >= 4) {
+        window.alert("A depth higher than 4 is currently not allowed.")
+    } else {
+        tree.insert(val, insertDirection.value.toLowerCase());
+        tree.draw();
+        insertValue.value = '';
+        checkInsertionAllowed()
+    }
 }
+
+
+function checkInsertionAllowed() {
+    
+    if (insertValue.value !== '' && (tree.selectedNode !== null || tree.root === null)) {
+        insertButton.disabled = false;
+    } else {
+        insertButton.disabled = true;
+    }
+}
+
+insertValue.onkeyup = checkInsertionAllowed
+
+
 
 
 
