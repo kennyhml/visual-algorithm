@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{% static 'css/canvas.css' %}">
     <link rel="stylesheet" href="{% static 'css/sidebar.css' %}">
     <link rel="stylesheet" href="{% static 'css/nodes.css' %}">
+    <link rel="stylesheet" href="{% static 'css/tools.css' %}">
 </head>
 
 <body>
@@ -15,6 +16,31 @@
         <!-- Provide tools to modify (add / delete or change a node) the tree. -->
         <div id="tools">
             <h1 style="text-align: center; margin: 0;">Toolbar</h1>
+            <div class="functional-buttons" id="insert-tools-container">
+                <button id="insert-node">Insert Node</button>
+                <select id="insert-position">
+                    <option value="left">Left</option>
+                    <option value="right">Right</option>
+                </select>
+                <label for="new-node-value">Value:</label>
+                <input type="text" id="new-node-value">
+            </div>
+            <div class="functional-buttons" id="modify-tools-container">
+                <button id="modify-node">Change Node</button>
+                <label for="modified-value">New node value:</label>
+                <input type="text" id="modified-value">
+            </div>
+            <div class="functional-buttons" id="delete-tools-container">
+                <button id="delete-node">Delete Node</button>
+                <select id="insert-position">
+                    <option value="delete-children">Delete full following branch</option>
+                    <option value="keep-left">Keep left sub-branch</option>
+                    <option value="keep-right">Keep right sub-branch</option>
+                </select>
+            </div>
+
+
+
         </div>
         
         <!-- Show information about the currently selected node of the tree -->
@@ -23,30 +49,30 @@
             <!-- First row of the node info displaying its value and child values. -->
             <div class="node-info">
                 <div class="node-field">
-                    <label>Value:</label>
+                    <label for="node-value">Value:</label>
                     <input type="text" id="node-value" placeholder="-" readonly>
                 </div>
                 <div class="node-field">
-                    <label>Left:</label>
+                    <label for="node-left-child">Left:</label>
                     <input type="text" id="node-left-child" placeholder="-" readonly>
                 </div>
                 <div class="node-field">
-                    <label>Right:</label>
+                    <label for="node-right-child">Right:</label>
                     <input type="text" id="node-right-child" placeholder="-" readonly>
                 </div>
             </div>
             <!-- Second row of the node info displaying it's depth and leaf / root state. -->
             <div class="node-info">
                 <div class="node-field">
-                    <label>Depth:</label>
+                    <label for="node-depth">Depth:</label>
                     <input type="text" id="node-depth" placeholder="-" readonly>
                 </div>
                 <div class="node-field">
-                    <label>Leaf:</label>
+                    <label for="node-leaf-node">Leaf:</label>
                     <input type="text" id="node-leaf-node" placeholder="-" readonly>
                 </div>
                 <div class="node-field">
-                    <label>Root:</label>
+                    <label for="node-root-node">Root:</label>
                     <input type="text" id="node-root-node" placeholder="-" readonly>
                 </div>
                 

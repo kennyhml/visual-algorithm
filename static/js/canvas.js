@@ -91,14 +91,15 @@ var rootNode = generateRandomBinaryTree(randomDepth);
 
 
 const tree = new BinaryTree(canvas, context, rootNode);
-
-
 tree.onSelectedNodeChanged = updateSelectedNodeFields
-
-
-
 tree.draw()
 
+
+const insertButton = document.getElementById("insert-node")
+
+insertButton.onclick = () => {
+
+}
 
 
 
