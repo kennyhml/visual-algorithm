@@ -42,18 +42,21 @@ function collapseSidebar() {
     const sidebar = document.getElementById("sidebar");
     const div = document.getElementById("expand-sidebar");
     const button = document.getElementById("expand-sidebar-button")
-    console.log(sidebar.style.display)
-    if (sidebar.style.width === "300px") {
+
+    const computedStyle = window.getComputedStyle(sidebar);
+    const sidebarWidth = computedStyle.width;
+
+    if (sidebarWidth === "300px") {
         // Collapse the sidebar
         sidebar.style.width = "0";
         sidebar.style.padding = "0";
-        button.innerHTML = ">";
+        button.textContent = ">";
         div.style.left = "0";
       } else {
         // Expand the sidebar
         sidebar.style.width = "300px";
         sidebar.style.padding = "5px";
-        button.innerHTML = "<";
+        button.textContent = "<";
         div.style.left = "310px";
       }
   }

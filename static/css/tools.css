@@ -1,4 +1,3 @@
-
 #tools {
     display: flex;
     flex-direction: column;
@@ -18,15 +17,22 @@
     padding-top: 10px;
     color: white;
 
+
+
 }
 
-#new-node-value, #modified-value {
+.functional-buttons button {
+    width: 90px;
+
+}
+
+
+
+#new-node-value,
+#modified-value {
     width: 40px;
 }
- 
+
 #delete-node {
     transform: translateX(2px);
 }
-
-
-

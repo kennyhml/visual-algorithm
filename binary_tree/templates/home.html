@@ -18,8 +18,8 @@
             <h1 style="text-align: center; margin: 0;">Toolbar</h1>
             <!-- Insert related stuffs -->
             <div class="functional-buttons" id="insert-tools-container">
-                <button id="insert-node" disabled>Insert Node</button>
-                <select id="insert-position">
+                <button id="insert-node" title="Enter a value & select the parent.">Insert node</button>
+                <select title="Specify what side to insert the node at" id="insert-position">
                     <option value="left">Left</option>
                     <option value="right">Right</option>
                 </select>
@@ -28,14 +28,14 @@
             </div>
             <!-- Modify related stuffs -->
             <div class="functional-buttons" id="modify-tools-container">
-                <button id="modify-node" disabled>Change Node</button>
+                <button id="modify-node" title="Enter a new value & select the node to change.">Modify node</button>
                 <label for="modified-value">New node value:</label>
                 <input type="text" id="modified-value">
             </div>
             <!-- Delete related stuffs-->
             <div class="functional-buttons" id="delete-tools-container">
-                <button id="delete-node" disabled>Delete Node</button>
-                <select id="insert-position">
+                <button id="delete-node" title="Delete the selected node.">Delete node</button>
+                <select title="Specify what to do with the children." id="insert-position">
                     <option value="delete-children">Delete full following branch</option>
                     <option value="keep-left">Keep left sub-branch</option>
                     <option value="keep-right">Keep right sub-branch</option>
@@ -74,11 +74,11 @@
                     <label for="node-root-node">Root:</label>
                     <input type="text" id="node-root-node" placeholder="-" readonly>
                 </div>
-                
+
             </div>
-            
+
         </div>
-        
+
     </div>
     <div id="expand-sidebar">
         <button id="expand-sidebar-button">&lt;</button>
@@ -86,7 +86,7 @@
     <canvas>
         <script src="{% static 'js/canvas.js' %}?v=1" type="module"></script>
     </canvas>
-    
+
 </body>
 
 </html>
